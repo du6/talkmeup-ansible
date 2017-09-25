@@ -1,0 +1,10 @@
+---
+# tasks file for git
+
+- name: Installing git
+  yum:
+    name: "{{ item }}"
+    enablerepo: epel
+    state: installed
+  with_items:
+    - git

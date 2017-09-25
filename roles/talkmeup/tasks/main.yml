@@ -1,0 +1,34 @@
+---
+# tasks file for talkmeup
+
+- name: Copying the application files
+  copy:
+    src: /Users/yuelindu/Projects/aws/talkmeup/talkmeup
+    dest: /home/ec2-user/
+    owner: ec2-user
+    group: ec2-user
+    mode: u=rwx,g=rx,o=rx
+
+- name: Manually creating the initial virtualenv
+  command: "virtualenv -p python3.5 {{ venv_path }}"
+
+- name: Updating pip
+  pip:
+    name: pip
+    extra_args: --upgrade
+    virtualenv: "{{ venv_path }}"
+
+- name: Installing requirements
+  pip: 
+    requirements: "{{ app_path }}/requirements.txt"
+    virtualenv: "{{ venv_path }}"
+
+- name: Migrating database
+  command: "{{ venv_path }}/bin/python manage.py migrate"
+  args:
+    chdir: "{{ app_path }}"
+
+- name: Starting server
+  command: "{{ venv_path }}/bin/python manage.py runserver 0.0.0.0:{{ application_port }}"
+  args:
+    chdir: "{{ app_path }}"

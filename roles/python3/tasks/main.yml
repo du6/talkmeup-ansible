@@ -1,0 +1,22 @@
+---
+# tasks file for python3
+
+- name: Installing python35
+  yum:
+    name: "{{ item }}"
+    enablerepo: epel
+    state: installed
+  with_items:
+    - python35
+    - python35-setuptools
+
+- name: Installing pip
+  easy_install:
+    name: pip
+    state: latest
+    executable: easy_install-3.5
+
+- name: Installing virtualenv
+  pip:
+    name: virtualenv
+    executable: /usr/local/bin/pip3.5
