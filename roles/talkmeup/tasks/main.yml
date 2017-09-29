@@ -28,7 +28,7 @@
 
 - name: Copying the upstart file
   copy:
-    src: /Users/yuelindu/Projects/aws/talkmeup/ansible/talkmeup.conf
+    src: /Users/yuelindu/Projects/aws/talkmeup/talkmeup/scripts/talkmeup.conf
     dest: /etc/init/talkmeup.conf
     owner: root
     group: root
