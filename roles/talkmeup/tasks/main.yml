@@ -23,12 +23,18 @@
     requirements: "{{ app_path }}/requirements.txt"
     virtualenv: "{{ venv_path }}"
 
-- name: Migrating database
-  command: "{{ venv_path }}/bin/python manage.py migrate"
-  args:
-    chdir: "{{ app_path }}"
+- name: Django migrate
+  django_manage: command=migrate app_path={{ app_path }} virtualenv={{ venv_path }}
 
-- name: Starting server
-  command: "{{ venv_path }}/bin/python manage.py runserver 0.0.0.0:{{ application_port }}"
-  args:
-    chdir: "{{ app_path }}"
+- name: Copying the upstart file
+  copy:
+    src: /Users/yuelindu/Projects/aws/talkmeup/ansible/talkmeup.conf
+    dest: /etc/init/talkmeup.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Starting the server
+  service:
+    name: talkmeup
+    state: started
