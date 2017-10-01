@@ -1,5 +1,6 @@
 ---
 # vars file for talkmeup
 
+home_path: "/home/ec2-user"
 venv_path: "/home/ec2-user/talkmeup-venv"
 app_path: "/home/ec2-user/talkmeup"

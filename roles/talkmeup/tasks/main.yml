@@ -1,13 +1,10 @@
 ---
 # tasks file for talkmeup
 
-- name: Copying the application files
-  copy:
-    src: /Users/yuelindu/Projects/aws/talkmeup/talkmeup
-    dest: /home/ec2-user/
-    owner: ec2-user
-    group: ec2-user
-    mode: u=rwx,g=rx,o=rx
+- name: Git clone the application files
+  git:
+    repo: 'https://github.com/du6/talkmeup.git'
+    dest: "{{ home_path }}"
 
 - name: Manually creating the initial virtualenv
   command: "virtualenv -p python3.5 {{ venv_path }}"
@@ -27,12 +24,8 @@
   django_manage: command=migrate app_path={{ app_path }} virtualenv={{ venv_path }}
 
 - name: Copying the upstart file
-  copy:
-    src: /Users/yuelindu/Projects/aws/talkmeup/talkmeup/scripts/talkmeup.conf
-    dest: /etc/init/talkmeup.conf
-    owner: root
-    group: root
-    mode: 0644
+  command: "cp {{ app_path }}/scripts/talkmeup.conf /etc/init/talkmeup.conf"
+  become: true
 
 - name: Starting the server
   service:
