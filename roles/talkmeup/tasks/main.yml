@@ -4,7 +4,7 @@
 - name: Git clone the application files
   git:
     repo: 'https://github.com/du6/talkmeup.git'
-    dest: "{{ home_path }}"
+    dest: "{{ home_path }}/talkmeup"
 
 - name: Manually creating the initial virtualenv
   command: "virtualenv -p python3.5 {{ venv_path }}"
